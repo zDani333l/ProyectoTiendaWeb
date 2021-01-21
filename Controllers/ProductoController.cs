@@ -17,13 +17,14 @@ namespace ProyectoWebAppTienda.Controllers
             {
                 
                 NombrePrudcto = "Bicicleta Tipo Fixie - Innova",
-                Tallas = new String[]
+                Tallas = new string[]
                 {
                     "S","M","L"
                 },
-                Categorias = new String[]
+                
+                Categorias = new string[]
                 {
-                    "Urbano","Fixie","Acero"
+                     "Fija","Ruta","Montaña"
                 },
                 Img1 = Path.Combine(Server.MapPath("~/imgP/"), "1.jpg"),
                 Img2= Path.Combine(Server.MapPath("~/imgP/"), "2.jpg"),
@@ -36,16 +37,36 @@ namespace ProyectoWebAppTienda.Controllers
             return View(m);
         }
 
-        public ActionResult ListaProductos(int pagina = 1, int _RegistrosPorPagina = 3)
+        public ActionResult ListaProductos(string buscar,int pagina = 1 )
         {
+            int _RegistrosPorPagina = 3;
 
             PaginadorGenerico<DetalleProductoViewModel> _PaginadorProductos;
 
             // Almacenar la consulta de la tabla (objeto) 
-            List<DetalleProductoViewModel> _productos = this.xd();
+            IEnumerable<DetalleProductoViewModel> _productos = this.xd();
 
             // Número total de registros de la tabla 
-            int _TotalRegistros = _productos.Count;
+            int _TotalRegistros = _productos.Count();
+
+           
+            // Filtramos el resultado por el 'texto de búqueda'
+            if (!string.IsNullOrEmpty(buscar))
+            {
+                foreach (var item in buscar.Split(new char[] { ' ' },
+                         StringSplitOptions.RemoveEmptyEntries))
+                {
+                    _productos = _productos.Where(x => x.NombrePrudcto.Contains(item) ||
+                                                  x.Categorias.Contains(item))
+                                                  .ToList();
+                }
+            }
+
+            // Obtenemos la 'página de registros' de la tabla
+            _productos = _productos.OrderBy(x => x.NombrePrudcto)
+                                                 .Skip((pagina - 1) * _RegistrosPorPagina)
+                                                 .Take(_RegistrosPorPagina)
+                                                 .ToList();
 
             // Número total de páginas de la tabla
             var _TotalPaginas = (int)Math.Ceiling((double)_TotalRegistros / _RegistrosPorPagina);
@@ -54,19 +75,31 @@ namespace ProyectoWebAppTienda.Controllers
                 RegistrosPorPagina = _RegistrosPorPagina,
                 TotalRegistros = _TotalRegistros,
                 TotalPaginas = _TotalPaginas,
+                PaginaActual = pagina,
+                BusquedaActual = buscar,
                 Resultado = _productos
                 
             };
-
+            Dictionary<int, string> cat = new Dictionary<int, string>()
+            {
+                {10,"Bicicletas"},
+                {30,"Accesorios"},
+                {90,"Ropa"},
+                {200,"Componentes"},
+            };
+            ViewBag.Categorias = cat;
+            ViewData["xd"] = cat;
             return View(_PaginadorProductos);
         }
 
-        public List<DetalleProductoViewModel> xd()
+        public IEnumerable<DetalleProductoViewModel> xd()
         {
+
+
             DetalleProductoViewModel m = new DetalleProductoViewModel
             {
 
-                NombrePrudcto = "Bicicleta Tipo Fixie - Innova",
+                NombrePrudcto = "A",
                 Tallas = new String[]
                 {
                     "S","M","L"
@@ -85,7 +118,7 @@ namespace ProyectoWebAppTienda.Controllers
             DetalleProductoViewModel m1 = new DetalleProductoViewModel
             {
 
-                NombrePrudcto = "Bicicleta Tipo Fixie - Innova",
+                NombrePrudcto = "B",
                 Tallas = new String[]
                 {
                     "S","M","L"
@@ -104,7 +137,7 @@ namespace ProyectoWebAppTienda.Controllers
             DetalleProductoViewModel m2 = new DetalleProductoViewModel
             {
 
-                NombrePrudcto = "Bicicleta Tipo Fixie - Innova",
+                NombrePrudcto = "C",
                 Tallas = new String[]
                 {
                     "S","M","L"
@@ -123,7 +156,7 @@ namespace ProyectoWebAppTienda.Controllers
             DetalleProductoViewModel m3 = new DetalleProductoViewModel
             {
 
-                NombrePrudcto = "Bicicleta Tipo Fixie - Innova",
+                NombrePrudcto = "D",
                 Tallas = new String[]
                 {
                     "S","M","L"
@@ -142,7 +175,7 @@ namespace ProyectoWebAppTienda.Controllers
             DetalleProductoViewModel m4 = new DetalleProductoViewModel
             {
 
-                NombrePrudcto = "Bicicleta Tipo Fixie - Innova",
+                NombrePrudcto = "E",
                 Tallas = new String[]
                 {
                     "S","M","L"
@@ -162,7 +195,7 @@ namespace ProyectoWebAppTienda.Controllers
             DetalleProductoViewModel m5 = new DetalleProductoViewModel
             {
 
-                NombrePrudcto = "Bicicleta Tipo Fixie - Innova",
+                NombrePrudcto = "F",
                 Tallas = new String[]
                 {
                     "S","M","L"
@@ -181,7 +214,7 @@ namespace ProyectoWebAppTienda.Controllers
             DetalleProductoViewModel m6 = new DetalleProductoViewModel
             {
 
-                NombrePrudcto = "Bicicleta Tipo Fixie - Innova",
+                NombrePrudcto = "G",
                 Tallas = new String[]
                 {
                     "S","M","L"

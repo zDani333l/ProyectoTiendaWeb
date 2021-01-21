@@ -140,8 +140,8 @@
                     </ul>
                 </div>
                 <div class="navigation__column right">
-                    <form class="ps-search--header" action="do_action" method="post">
-                        <input class="form-control" type="text" placeholder="Search Product…">
+                    <form class="ps-search--header" method="get" action="/Producto/ListaProductos">
+                        <input class="form-control" name="buscar" type="text" placeholder="Buscar Producto…">
                         <button><i class="ps-icon-search"></i></button>
                     </form>
                     <div class="ps-cart">

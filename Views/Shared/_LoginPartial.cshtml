@@ -6,31 +6,30 @@
             <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12 ">
                 <p>460 West 34th Street, 15th floor, New York  -  Hotline: 804-377-3580 - 804-399-3580</p>
             </div>
-            
-                @if (Request.IsAuthenticated)
-                {
-                    @Html.AntiForgeryToken()
-        <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
-            <div class="header__actions">
-                <div class="btn-group ps-dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hola @User.Identity.GetUserName()!<i class="fa fa-angle-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/Manage" title="Manage">Manage</a></li>
-                        <li><a href="/LogOff">Cerrar sesión</a></li>
-                    </ul>
+
+            @if (Request.IsAuthenticated)
+            {
+                @Html.AntiForgeryToken()
+                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
+                    <div class="header__actions">
+                        <div class="btn-group ps-dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hola @User.Identity.GetUserName()!<i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Manage" title="Manage">Manage</a></li>
+                                <li><a href="/LogOff">Cerrar sesión</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-                
-            </div>
             }
             else
             {
-            <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
-                <div class="header__actions">
-                    <a id="registerLink" href="/Account/Register">Registrarse</a>
-                    <a id="loginLink" href="/Account/Login">Iniciar sesión</a>
+                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
+                    <div class="header__actions">
+                        <a id="registerLink" href="/Account/Register">Registrarse</a>
+                        <a id="loginLink" href="/Account/Login">Iniciar sesión</a>
+                    </div>
                 </div>
-            </div>
             }
 
         </div>

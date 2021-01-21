@@ -1,18 +1,16 @@
-﻿@using PagedList.Mvc
-@model ProyectoWebAppTienda.Models.PaginadorGenerico<ProyectoWebAppTienda.Models.DetalleProductoViewModel>
+﻿@model ProyectoWebAppTienda.Models.PaginadorGenerico<ProyectoWebAppTienda.Models.DetalleProductoViewModel>
 @{
-    ViewBag.Title = "ListaProductos";
+    ViewBag.Title = "Lista Productos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
 <!--Funcionalidad de paginas paginador-->
-@{ 
+@{
     int Inicial = 1;
-    var radio = 3;
+    var radio = 2;
     var CantidadMaximaDePaginas = radio * 2 + 1;
     int Final = (Model.TotalPaginas > CantidadMaximaDePaginas ? CantidadMaximaDePaginas : Model.TotalPaginas);
-    if(Model.PaginaActual > radio + 1)
+    if (Model.PaginaActual > radio + 1)
     {
         Inicial = Model.PaginaActual - radio;
         if (Model.TotalPaginas > Model.PaginaActual + radio)
@@ -42,31 +40,32 @@
                     <ul class="pagination">
                         @if (Model.PaginaActual == 1)
                         {
-                            
-                            <li class="disabled">@Html.ActionLink("ListaProductos", "Producto", new { pagina = 1 })<i class="fa fa-angle-left"></i></li>
+                            <li class="disabled"><a href="/Producto/ListaProductos?pagina=1"><i class="fa fa-angle-left"></i></a></li>
                         }
                         else
                         {
-                            <li>@Html.ActionLink("ListaProductos", "Producto", new { pagina = Model.PaginaActual - 1 })<i class="fa fa-angle-left"></i></li>
+                            int p = Model.PaginaActual - 1; ;
+                            <li><a href="/Producto/ListaProductos?pagina=@p"><i class="fa fa-angle-left"></i></a></li>
                         }
-                        @for(int i = Inicial; i <= Final; i++)
+                        @for (int i = Inicial; i <= Final; i++)
                         {
                             if (i == Model.PaginaActual)
                             {
-                                <li class="active">@Html.ActionLink(i.ToString(), "ListaProductos", "Producto", new { pagina = i})</li>
+                                <li class="active"><a href="/Producto/ListaProductos?pagina=@i">@i.ToString()</a></li>
                             }
                             else
                             {
-                                <li>@Html.ActionLink(i.ToString(),"ListaProductos", "Producto", new { pagina = i})</li>
+                                <li><a href="/Producto/ListaProductos?pagina=@i">@i.ToString()</a></li>
                             }
                         }
                         @if (Model.PaginaActual == Model.TotalPaginas)
                         {
-                            <li class="disabled">@Html.ActionLink("ListaProductos", "Producto", new { pagina = Model.TotalPaginas })<i class="fa fa-angle-right"></i></li>
+                            <li><a href="/Producto/ListaProductos?pagina=@Model.TotalPaginas"><i class="fa fa-angle-right"></i></a></li>
                         }
                         else
                         {
-                            <li>@Html.ActionLink("ListaProductos", "Producto", new { pagina = Model.PaginaActual + 1 })<i class="fa fa-angle-right"></i></li>
+                            int x = Model.PaginaActual + 1;
+                            <li><a href="/Producto/ListaProductos?pagina=@x"><i class="fa fa-angle-right"></i></a></li>
                         }
                     </ul>
                 </div>
@@ -95,7 +94,7 @@
                                     <p class="ps-shoe__categories">
                                         @for (int i = 0; i < item.Categorias.Length; i++)
                                         {
-                                            if (i == item.Categorias.Length)
+                                            if ((item.Categorias.Length-1) == i)
                                             {
                                                 <a href="#">@item.Categorias[i]</a>
                                             }
@@ -141,17 +140,14 @@
         <div class="ps-sidebar" data-mh="product-listing">
             <aside class="ps-widget--sidebar ps-widget--category">
                 <div class="ps-widget__header">
-                    <h3>Category</h3>
+                    <h3>Categoria</h3>
                 </div>
                 <div class="ps-widget__content">
                     <ul class="ps-list--checked">
-                        <li class="current"><a href="product-listing.html">Life(521)</a></li>
-                        <li><a href="product-listing.html">Running(76)</a></li>
-                        <li><a href="product-listing.html">Baseball(21)</a></li>
-                        <li><a href="product-listing.html">Football(105)</a></li>
-                        <li><a href="product-listing.html">Soccer(108)</a></li>
-                        <li><a href="product-listing.html">Trainning & game(47)</a></li>
-                        <li><a href="product-listing.html">More</a></li>
+                        @*@foreach (var item in ViewBag.Categorias)
+                        {
+                            <li><a href="product-listing.html">@item.</a></li>
+                        }*@
                     </ul>
                 </div>
             </aside>
@@ -263,28 +259,6 @@
                     </div>
                 </aside>
             </div>
-            <!--aside.ps-widget--sidebar-->
-            <!--    .ps-widget__header: h3 Ads Banner-->
-            <!--    .ps-widget__content-->
-            <!--        a(href='product-listing'): img(src="images/offer/sidebar.jpg" alt="")-->
-            <!---->
-            <!--aside.ps-widget--sidebar-->
-            <!--    .ps-widget__header: h3 Best Seller-->
-            <!--    .ps-widget__content-->
-            <!--        - for (var i = 0; i < 3; i ++)-->
-            <!--            .ps-shoe--sidebar-->
-            <!--                .ps-shoe__thumbnail-->
-            <!--                    a(href='#')-->
-            <!--                    img(src="images/shoe/sidebar/"+(i+1)+".jpg" alt="")-->
-            <!--                .ps-shoe__content-->
-            <!--                    if i == 1-->
-            <!--                        a(href='#').ps-shoe__title Nike Flight Bonafide-->
-            <!--                    else if i == 2-->
-            <!--                        a(href='#').ps-shoe__title Nike Sock Dart QS-->
-            <!--                    else-->
-            <!--                        a(href='#').ps-shoe__title Men's Sky-->
-            <!--                    p <del> £253.00</del> £152.00-->
-            <!--                    a(href='#').ps-btn PURCHASE-->
         </div>
     </div>
 
