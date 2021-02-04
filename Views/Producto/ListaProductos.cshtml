@@ -32,9 +32,7 @@
             <div class="ps-product-action">
                 <div class="ps-product__filter">
                     <select class="ps-select selectpicker">
-
-                       
-                        <option value="1">Shortby</option>
+                        <option value="1"><a href="">content</a>>Shortby</option>
                         <option value="1">Shortby</option>
                         <option value="2">Name</option>
                         <option value="3">Price (Low to High)</option>
@@ -76,8 +74,6 @@
                 </div>
             </div>
             <div class="ps-product__columns">
-                
-
                 @foreach (var item in Model.Resultado.ToList())
                 {
                     var listImagenes = item.Tbl_imagen.ToList();
@@ -99,7 +95,6 @@
                                             <img src="/imagenes/@listImagenes[2].NombreImagen " alt="">
                                             <img src="/imagenes/@listImagenes[3].NombreImagen" alt="">
                                         </div>
-
                                     </div>
                                     <div class="ps-shoe__detail">
                                         <a class="ps-shoe__name" href="#">@item.NombreProducto</a>
@@ -115,6 +110,7 @@
                 }
 
             </div>
+
 
             <div class="ps-product-action">
                 <div class="ps-product__filter">
@@ -138,7 +134,5 @@
             </div>
         </div>
     </div>
-
-
 </main>
 
