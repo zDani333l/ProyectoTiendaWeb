@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="dbTiendaOnlineBicicletasModelStoreContainer" CdmEntityContainer="dbTiendaOnlineBicicletasEntities">
+    <EntitySetMapping Name="Tbl_Carro">
+      <EntityTypeMapping TypeName="dbTiendaOnlineBicicletasModel.Tbl_Carro">
+        <MappingFragment StoreEntitySet="Tbl_Carro">
+          <ScalarProperty Name="CarroId" ColumnName="CarroId" />
+          <ScalarProperty Name="ProductoId" ColumnName="ProductoId" />
+          <ScalarProperty Name="MiembroId" ColumnName="MiembroId" />
+          <ScalarProperty Name="CarroStatusId" ColumnName="CarroStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_CarroStatus">
+      <EntityTypeMapping TypeName="dbTiendaOnlineBicicletasModel.Tbl_CarroStatus">
+        <MappingFragment StoreEntitySet="Tbl_CarroStatus">
+          <ScalarProperty Name="CarroStatusId" ColumnName="CarroStatusId" />
+          <ScalarProperty Name="CarroStatus" ColumnName="CarroStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Categoria">
+      <EntityTypeMapping TypeName="dbTiendaOnlineBicicletasModel.Tbl_Categoria">
+        <MappingFragment StoreEntitySet="Tbl_Categoria">
+          <ScalarProperty Name="CategoriaId" ColumnName="CategoriaId" />
+          <ScalarProperty Name="NombreCategoria" ColumnName="NombreCategoria" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_DetallesCompra">
+      <EntityTypeMapping TypeName="dbTiendaOnlineBicicletasModel.Tbl_DetallesCompra">
+        <MappingFragment StoreEntitySet="Tbl_DetallesCompra">
+          <ScalarProperty Name="DetallesCompraId" ColumnName="DetallesCompraId" />
+          <ScalarProperty Name="ordenId" ColumnName="ordenId" />
+          <ScalarProperty Name="MiembroId" ColumnName="MiembroId" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Pais" ColumnName="Pais" />
+          <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="TipoPago" ColumnName="TipoPago" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_imagen">
+      <EntityTypeMapping TypeName="dbTiendaOnlineBicicletasModel.Tbl_imagen">
+        <MappingFragment StoreEntitySet="Tbl_imagen">
+          <ScalarProperty Name="IdImagenes" ColumnName="IdImagenes" />
+          <ScalarProperty Name="NombreImagen" ColumnName="NombreImagen" />
+          <ScalarProperty Name="DirImagen" ColumnName="DirImagen" />
+          <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Miembro">
+      <EntityTypeMapping TypeName="dbTiendaOnlineBicicletasModel.Tbl_Miembro">
+        <MappingFragment StoreEntitySet="Tbl_Miembro">
+          <ScalarProperty Name="MiembroId" ColumnName="MiembroId" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="PasswordId" ColumnName="PasswordId" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_MiembroRol">
+      <EntityTypeMapping TypeName="dbTiendaOnlineBicicletasModel.Tbl_MiembroRol">
+        <MappingFragment StoreEntitySet="Tbl_MiembroRol">
+          <ScalarProperty Name="MiembroRolId" ColumnName="MiembroRolId" />
+          <ScalarProperty Name="MiembroId" ColumnName="MiembroId" />
+          <ScalarProperty Name="RoleadoId" ColumnName="RoleadoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Producto">
+      <EntityTypeMapping TypeName="dbTiendaOnlineBicicletasModel.Tbl_Producto">
+        <MappingFragment StoreEntitySet="Tbl_Producto">
+          <ScalarProperty Name="ProductoId" ColumnName="ProductoId" />
+          <ScalarProperty Name="NombreProducto" ColumnName="NombreProducto" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="Precio" ColumnName="Precio" />
+          <ScalarProperty Name="Talla" ColumnName="Talla" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="ProveedorId" ColumnName="ProveedorId" />
+          <ScalarProperty Name="CategoriaId" ColumnName="CategoriaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Proveedor">
+      <EntityTypeMapping TypeName="dbTiendaOnlineBicicletasModel.Tbl_Proveedor">
+        <MappingFragment StoreEntitySet="Tbl_Proveedor">
+          <ScalarProperty Name="ProveedorId" ColumnName="ProveedorId" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="direccion" ColumnName="direccion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Roles">
+      <EntityTypeMapping TypeName="dbTiendaOnlineBicicletasModel.Tbl_Roles">
+        <MappingFragment StoreEntitySet="Tbl_Roles">
+          <ScalarProperty Name="RoleadoId" ColumnName="RoleadoId" />
+          <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetBySearch" FunctionName="dbTiendaOnlineBicicletasModel.Store.GetBySearch">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="dbTiendaOnlineBicicletasModel.GetBySearch_Result">
+          <ScalarProperty Name="ProductoId" ColumnName="ProductoId" />
+          <ScalarProperty Name="NombreProducto" ColumnName="NombreProducto" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="Precio" ColumnName="Precio" />
+          <ScalarProperty Name="Talla" ColumnName="Talla" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="ProveedorId" ColumnName="ProveedorId" />
+          <ScalarProperty Name="CategoriaId" ColumnName="CategoriaId" />
+          <ScalarProperty Name="CategoriaId1" ColumnName="CategoriaId1" />
+          <ScalarProperty Name="NombreCategoria" ColumnName="NombreCategoria" />
+          <ScalarProperty Name="IsActive1" ColumnName="IsActive1" />
+          <ScalarProperty Name="IsDelete1" ColumnName="IsDelete1" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

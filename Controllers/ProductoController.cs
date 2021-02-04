@@ -1,245 +1,143 @@
-﻿using ProyectoWebAppTienda.Models;
+﻿using ProyectoWebAppTienda.DAL;
+using ProyectoWebAppTienda.Models;
+using ProyectoWebAppTienda.Repository;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ProyectoWebAppTienda.Controllers
 {
     public class ProductoController : Controller
     {
-        // GET: Producto
-        public ActionResult DetalleProducto()
+        private GenericUnitOfWork _unitOfWork = new GenericUnitOfWork();
+        public ActionResult DetalleProducto(int id, string buscar, int pagina = 1, int check=0)
         {
-            DetalleProductoViewModel m = new DetalleProductoViewModel
+            ViewBag.buscar = buscar;
+            ViewBag.pag = pagina;
+            ViewBag.check = check;
+
+            //CONSULTAS A LA BASE DE DATOS
+            var auxProducto = _unitOfWork.GetRepositoryInstance<Tbl_Producto>().GetId(id);
+            Tbl_Categoria cat  = _unitOfWork.GetRepositoryInstance<Tbl_Categoria>().GetId(auxProducto.Tbl_Categoria.CategoriaId);
+            var auxImgs = _unitOfWork.GetRepositoryInstance<Tbl_imagen>().GetListaParametro(x => x.IdProducto == auxProducto.ProductoId).ToList();
+            IEnumerable<Tbl_Producto> productosRelacionados = _unitOfWork.GetRepositoryInstance<Tbl_Producto>().GetListaParametro(x => x.CategoriaId == auxProducto.CategoriaId).ToList();
+
+            //FILTRAR LOS PRODUCTOS RELACIONADOS QUE TIENEN STOCK
+            productosRelacionados = productosRelacionados.Where(x => x.Cantidad > 0);
+
+            //FILTRO PARA QUE NO MUESTRE EL MISMO PRODUCTO QUE ESTAMOS VIENDO
+            productosRelacionados = productosRelacionados.Where(x => x.ProductoId != id);
+
+            //CARAGAR IMAGENES RELACIONADAS AL PRODUCTO RELACIONADO
+            var auxP = productosRelacionados.ToList();
+            foreach (var item in auxP)
             {
-                
-                NombrePrudcto = "Bicicleta Tipo Fixie - Innova",
-                Tallas = new string[]
+                var img = _unitOfWork.GetRepositoryInstance<Tbl_imagen>().GetListaParametro(x => x.IdProducto == item.ProductoId).ToList();
+                foreach (var it in img)
                 {
-                    "S","M","L"
-                },
-                
-                Categorias = new string[]
-                {
-                     "Fija","Ruta","Montaña"
-                },
-                Img1 = Path.Combine(Server.MapPath("~/imgP/"), "1.jpg"),
-                Img2= Path.Combine(Server.MapPath("~/imgP/"), "2.jpg"),
-                Img3 = Path.Combine(Server.MapPath("~/imgP/"), "3.jpg"),
-                Precio = 280.000,
-                Descripcion="Esta es la descripcion de nuestro producto que esta 10/10 mi perrito :v"
+                    item.Tbl_imagen.Add(it);
+                }
+            }
+            productosRelacionados = auxP;
 
+            //FILTRAR LOS PRODUCTOS RELACIONADOS QUE NO TIENEN LAS IMAGENES COMPLETAS
+            productosRelacionados = productosRelacionados.Where(x => x.Tbl_imagen.Count >= 4);
+
+            //CARAGAR CATEGORIA RELACIONADA AL PRODUCTO RELACIONADO
+            var auxC = productosRelacionados.ToList();
+            foreach (var item in auxC)
+            {
+                var auxCat = _unitOfWork.GetRepositoryInstance<Tbl_Categoria>().GetPorParametro(x => x.CategoriaId == item.CategoriaId);
+                item.Tbl_Categoria = auxCat;
+            }
+            productosRelacionados = auxC;
+
+            //CARGAR DATOS AL MODELO PARA LA VISTA
+            DetalleProductoViewModels producto = new DetalleProductoViewModels {
+                Cantidad = (int)auxProducto.Cantidad,
+                Color = auxProducto.Color,
+                NombreProducto = auxProducto.NombreProducto,
+                Precio = (double)auxProducto.Precio,
+                Talla = auxProducto.Talla,
+                Descripcion = auxProducto.Descripcion,
+                ProductoId = auxProducto.ProductoId,
+                Categoria = cat.NombreCategoria,
+                Imagenes = auxImgs,
+                //ProductosRelacionados = productosRelacionados.ToList()
+                ProductosRelacionados = _unitOfWork.GetRepositoryInstance<Tbl_Producto>().GetRegistros().ToList()
             };
-            
-            return View(m);
+
+            //INICIAR VISTA CON EL MODELO
+            return View(producto);
         }
-
-        public ActionResult ListaProductos(string buscar,int pagina = 1 )
+        public ActionResult ListaProductos(string buscar, int pagina = 1, CheckBoxList checkBoxList = null)
         {
-            int _RegistrosPorPagina = 3;
+            ViewBag.buscar = buscar;
+            ViewBag.pag = pagina;
+            var categorias = _unitOfWork.GetRepositoryInstance<CategoriaViewModels>().GetResuladoSqlProcedure("GetCategoriaView").ToList();
+            ViewBag.Categorias = new CheckBoxList(categorias);
 
-            PaginadorGenerico<DetalleProductoViewModel> _PaginadorProductos;
+
+            int _RegistrosPorPagina = 3;
+            PaginadorGenerico<Tbl_Producto> _PaginadorProductos;
+           
+            SqlParameter[] param = new SqlParameter[]{
+                new SqlParameter("@search",buscar??(object)DBNull.Value)
+            };
 
             // Almacenar la consulta de la tabla (objeto) 
-            IEnumerable<DetalleProductoViewModel> _productos = this.xd();
+            IEnumerable<Tbl_Producto> _productos = _unitOfWork.GetRepositoryInstance<Tbl_Producto>().GetResuladoSqlProcedure("GetBySearch @search", param).ToList();
+
+            //FILTRAR LOS PRODUCTOS QUE TIENEN STOCK
+            _productos = _productos.Where(x => x.Cantidad > 0);
+
+            //CARAGAR IMAGENES RELACIONADAS AL PRODUCTO
+            var auxProductos = _productos.ToList();
+            foreach (var item in auxProductos)
+            {
+                var img = _unitOfWork.GetRepositoryInstance<Tbl_imagen>().GetListaParametro(x => x.IdProducto == item.ProductoId).ToList();
+                foreach (var it in img)
+                {
+                    item.Tbl_imagen.Add(it);
+                }
+            }
+            _productos = auxProductos;
+
+            //FILTRAR LOS PRODUCTOS QUE NO TIENEN LA CANTIDAD MINIMA DE IMAGENES
+            _productos = _productos.Where(x => x.Tbl_imagen.Count >= 4);
+
+            //CARAGAR CATEGORIA RELACIONADA A LOS PRODUCTOS
+            var auxC = _productos.ToList();
+            foreach (var item in auxC)
+            {
+                item.Tbl_Categoria = _unitOfWork.GetRepositoryInstance<Tbl_Categoria>().GetPorParametro(x => x.CategoriaId == item.CategoriaId);
+            }
+            _productos = auxC;
 
             // Número total de registros de la tabla 
             int _TotalRegistros = _productos.Count();
 
-           
-            // Filtramos el resultado por el 'texto de búqueda'
-            if (!string.IsNullOrEmpty(buscar))
-            {
-                foreach (var item in buscar.Split(new char[] { ' ' },
-                         StringSplitOptions.RemoveEmptyEntries))
-                {
-                    _productos = _productos.Where(x => x.NombrePrudcto.Contains(item) ||
-                                                  x.Categorias.Contains(item))
-                                                  .ToList();
-                }
-            }
-
-            // Obtenemos la 'página de registros' de la tabla
-            _productos = _productos.OrderBy(x => x.NombrePrudcto)
+            // Obtenemos la 'páginacion de registros' de la tabla
+            _productos = _productos.OrderBy(x => x.NombreProducto)
                                                  .Skip((pagina - 1) * _RegistrosPorPagina)
                                                  .Take(_RegistrosPorPagina)
                                                  .ToList();
-
             // Número total de páginas de la tabla
             var _TotalPaginas = (int)Math.Ceiling((double)_TotalRegistros / _RegistrosPorPagina);
 
-            _PaginadorProductos = new PaginadorGenerico<DetalleProductoViewModel> {
+            _PaginadorProductos = new PaginadorGenerico<Tbl_Producto>
+            {
                 RegistrosPorPagina = _RegistrosPorPagina,
                 TotalRegistros = _TotalRegistros,
                 TotalPaginas = _TotalPaginas,
                 PaginaActual = pagina,
-                BusquedaActual = buscar,
                 Resultado = _productos
-                
+
             };
-            Dictionary<int, string> cat = new Dictionary<int, string>()
-            {
-                {10,"Bicicletas"},
-                {30,"Accesorios"},
-                {90,"Ropa"},
-                {200,"Componentes"},
-            };
-            ViewBag.Categorias = cat;
-            ViewData["xd"] = cat;
+
             return View(_PaginadorProductos);
-        }
-
-        public IEnumerable<DetalleProductoViewModel> xd()
-        {
-
-
-            DetalleProductoViewModel m = new DetalleProductoViewModel
-            {
-
-                NombrePrudcto = "A",
-                Tallas = new String[]
-                {
-                    "S","M","L"
-                },
-                Categorias = new String[]
-                {
-                    "Urbano","Fixie","Acero"
-                },
-                Img1 = Path.Combine(Server.MapPath("~/imgP/"), "1.jpg"),
-                Img2 = Path.Combine(Server.MapPath("~/imgP/"), "2.jpg"),
-                Img3 = Path.Combine(Server.MapPath("~/imgP/"), "3.jpg"),
-                Precio = 280.000,
-                Descripcion = "Esta es la descripcion de nuestro producto que esta 10/10 mi perrito :v"
-
-            };
-            DetalleProductoViewModel m1 = new DetalleProductoViewModel
-            {
-
-                NombrePrudcto = "B",
-                Tallas = new String[]
-                {
-                    "S","M","L"
-                },
-                Categorias = new String[]
-                {
-                    "Urbano","Fixie","Acero"
-                },
-                Img1 = Path.Combine(Server.MapPath("~/imgP/"), "1.jpg"),
-                Img2 = Path.Combine(Server.MapPath("~/imgP/"), "2.jpg"),
-                Img3 = Path.Combine(Server.MapPath("~/imgP/"), "3.jpg"),
-                Precio = 280.000,
-                Descripcion = "Esta es la descripcion de nuestro producto que esta 10/10 mi perrito :v"
-
-            };
-            DetalleProductoViewModel m2 = new DetalleProductoViewModel
-            {
-
-                NombrePrudcto = "C",
-                Tallas = new String[]
-                {
-                    "S","M","L"
-                },
-                Categorias = new String[]
-                {
-                    "Urbano","Fixie","Acero"
-                },
-                Img1 = Path.Combine(Server.MapPath("~/imgP/"), "1.jpg"),
-                Img2 = Path.Combine(Server.MapPath("~/imgP/"), "2.jpg"),
-                Img3 = Path.Combine(Server.MapPath("~/imgP/"), "3.jpg"),
-                Precio = 280.000,
-                Descripcion = "Esta es la descripcion de nuestro producto que esta 10/10 mi perrito :v"
-
-            };
-            DetalleProductoViewModel m3 = new DetalleProductoViewModel
-            {
-
-                NombrePrudcto = "D",
-                Tallas = new String[]
-                {
-                    "S","M","L"
-                },
-                Categorias = new String[]
-                {
-                    "Urbano","Fixie","Acero"
-                },
-                Img1 = Path.Combine(Server.MapPath("~/imgP/"), "1.jpg"),
-                Img2 = Path.Combine(Server.MapPath("~/imgP/"), "2.jpg"),
-                Img3 = Path.Combine(Server.MapPath("~/imgP/"), "3.jpg"),
-                Precio = 280.000,
-                Descripcion = "Esta es la descripcion de nuestro producto que esta 10/10 mi perrito :v"
-
-            };
-            DetalleProductoViewModel m4 = new DetalleProductoViewModel
-            {
-
-                NombrePrudcto = "E",
-                Tallas = new String[]
-                {
-                    "S","M","L"
-                },
-                Categorias = new String[]
-                {
-                    "Urbano","Fixie","Acero"
-                },
-                Img1 = Path.Combine(Server.MapPath("~/imgP/"), "1.jpg"),
-                Img2 = Path.Combine(Server.MapPath("~/imgP/"), "2.jpg"),
-                Img3 = Path.Combine(Server.MapPath("~/imgP/"), "3.jpg"),
-                Precio = 280.000,
-                Descripcion = "Esta es la descripcion de nuestro producto que esta 10/10 mi perrito :v"
-
-            };
-
-            DetalleProductoViewModel m5 = new DetalleProductoViewModel
-            {
-
-                NombrePrudcto = "F",
-                Tallas = new String[]
-                {
-                    "S","M","L"
-                },
-                Categorias = new String[]
-                {
-                    "Urbano","Fixie","Acero"
-                },
-                Img1 = Path.Combine(Server.MapPath("~/imgP/"), "1.jpg"),
-                Img2 = Path.Combine(Server.MapPath("~/imgP/"), "2.jpg"),
-                Img3 = Path.Combine(Server.MapPath("~/imgP/"), "3.jpg"),
-                Precio = 280.000,
-                Descripcion = "Esta es la descripcion de nuestro producto que esta 10/10 mi perrito :v"
-
-            };
-            DetalleProductoViewModel m6 = new DetalleProductoViewModel
-            {
-
-                NombrePrudcto = "G",
-                Tallas = new String[]
-                {
-                    "S","M","L"
-                },
-                Categorias = new String[]
-                {
-                    "Urbano","Fixie","Acero"
-                },
-                Img1 = Path.Combine(Server.MapPath("~/imgP/"), "1.jpg"),
-                Img2 = Path.Combine(Server.MapPath("~/imgP/"), "2.jpg"),
-                Img3 = Path.Combine(Server.MapPath("~/imgP/"), "3.jpg"),
-                Precio = 280.000,
-                Descripcion = "Esta es la descripcion de nuestro producto que esta 10/10 mi perrito :v"
-
-            };
-            List<DetalleProductoViewModel> pro;
-            pro = new List<DetalleProductoViewModel> { };
-            pro.Add(m);
-            pro.Add(m1);
-            pro.Add(m2);
-            pro.Add(m3);
-            pro.Add(m4);
-            pro.Add(m5);
-            pro.Add(m6);
-            return pro;
         }
     }
 }

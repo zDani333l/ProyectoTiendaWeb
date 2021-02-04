@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f49d4047185a4772971e64a85b0a9ee5" Name="Diagram1">
+        <EntityTypeShape EntityType="dbTiendaOnlineBicicletasModel.Tbl_Carro" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbTiendaOnlineBicicletasModel.Tbl_CarroStatus" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbTiendaOnlineBicicletasModel.Tbl_Categoria" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbTiendaOnlineBicicletasModel.Tbl_DetallesCompra" Width="1.5" PointX="5.25" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbTiendaOnlineBicicletasModel.Tbl_imagen" Width="1.5" PointX="5.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbTiendaOnlineBicicletasModel.Tbl_Miembro" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbTiendaOnlineBicicletasModel.Tbl_MiembroRol" Width="1.5" PointX="8.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbTiendaOnlineBicicletasModel.Tbl_Producto" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbTiendaOnlineBicicletasModel.Tbl_Proveedor" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbTiendaOnlineBicicletasModel.Tbl_Roles" Width="1.5" PointX="6" PointY="15" IsExpanded="true" />
+        <AssociationConnector Association="dbTiendaOnlineBicicletasModel.FK__Tbl_Carro__Carro__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="dbTiendaOnlineBicicletasModel.FK__Tbl_Carro__Miemb__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="dbTiendaOnlineBicicletasModel.FK__Tbl_Carro__Produ__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="dbTiendaOnlineBicicletasModel.FK__Tbl_Produ__Categ__2A4B4B5E" ManuallyRouted="false" />
+        <AssociationConnector Association="dbTiendaOnlineBicicletasModel.FK__Tbl_Detal__Miemb__35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="dbTiendaOnlineBicicletasModel.FK__Tbl_image__IdPro__2E1BDC42" ManuallyRouted="false" />
+        <AssociationConnector Association="dbTiendaOnlineBicicletasModel.FK__Tbl_Miemb__Miemb__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="dbTiendaOnlineBicicletasModel.FK__Tbl_Miemb__Rolea__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="dbTiendaOnlineBicicletasModel.FK__Tbl_Produ__Prove__2B3F6F97" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

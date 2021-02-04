@@ -1,4 +1,6 @@
-﻿@model ProyectoWebAppTienda.Models.PaginadorGenerico<ProyectoWebAppTienda.Models.DetalleProductoViewModel>
+﻿@using ProyectoWebAppTienda.Models;
+@using ProyectoWebAppTienda.DAL;
+@model PaginadorGenerico<Tbl_Producto>
 @{
     ViewBag.Title = "Lista Productos";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -30,6 +32,9 @@
             <div class="ps-product-action">
                 <div class="ps-product__filter">
                     <select class="ps-select selectpicker">
+
+                       
+                        <option value="1">Shortby</option>
                         <option value="1">Shortby</option>
                         <option value="2">Name</option>
                         <option value="3">Price (Low to High)</option>
@@ -71,45 +76,42 @@
                 </div>
             </div>
             <div class="ps-product__columns">
-                @foreach (var item in Model.Resultado)
+                
+
+                @foreach (var item in Model.Resultado.ToList())
                 {
-                    <div class="ps-product__column">
-                        <div class="ps-shoe mb-30">
-                            <div class="ps-shoe__thumbnail">
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                                <img src="/@item.Img1.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt="">
-                                <a class="ps-shoe__overlay" href="product-detail.html"></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__variants">
-                                    <div class="ps-shoe__variant normal">
-                                        <img src="/@item.Img1.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt="">
-                                        <img src="/@item.Img2.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt="">
-                                        <img src="/@item.Img3.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt="">
-                                    </div>
-
+                    var listImagenes = item.Tbl_imagen.ToList();
+                    if (listImagenes.Count >= 4)
+                    {
+                        <div class="ps-product__column">
+                            <div class="ps-shoe mb-30">
+                                <div class="ps-shoe__thumbnail">
+                                    <a class="ps-shoe__favorite" href="/Compra/AgregarCarrito?productId=@item.ProductoId&search=@ViewBag.buscar&pag=@ViewBag.pag"><i class="ps-icon-shopping-cart"></i></a>
+                                    <img src="/imagenes/@listImagenes[0].NombreImagen " alt="">
+                                    <a class="ps-shoe__overlay" href="/Producto/DetalleProducto?id=@item.ProductoId&buscar=@ViewBag.buscar&pagina=@ViewBag.pag"></a>
                                 </div>
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="#">@item.NombrePrudcto</a>
-                                    <p class="ps-shoe__categories">
-                                        @for (int i = 0; i < item.Categorias.Length; i++)
-                                        {
-                                            if ((item.Categorias.Length-1) == i)
-                                            {
-                                                <a href="#">@item.Categorias[i]</a>
-                                            }
-                                            else
-                                            {
-                                                <a href="#">@item.Categorias[i],</a>
-                                            }
 
-                                        }
-                                    </p>
-                                    <span class="ps-shoe__price"> $ @item.Precio</span>
+                                <div class="ps-shoe__content">
+                                    <div class="ps-shoe__variants">
+                                        <div class="ps-shoe__variant normal">
+                                            <img src="/imagenes/@listImagenes[0].NombreImagen" alt="">
+                                            <img src="/imagenes/@listImagenes[1].NombreImagen " alt="">
+                                            <img src="/imagenes/@listImagenes[2].NombreImagen " alt="">
+                                            <img src="/imagenes/@listImagenes[3].NombreImagen" alt="">
+                                        </div>
+
+                                    </div>
+                                    <div class="ps-shoe__detail">
+                                        <a class="ps-shoe__name" href="#">@item.NombreProducto</a>
+                                        <p class="ps-shoe__categories">
+                                            <a href="#">@item.Tbl_Categoria.NombreCategoria</a>
+                                        </p>
+                                        <span class="ps-shoe__price"> $ @item.Precio</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
 
             </div>
@@ -133,131 +135,6 @@
                         <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
                     </ul>
                 </div>
-            </div>
-        </div>
-
-
-        <div class="ps-sidebar" data-mh="product-listing">
-            <aside class="ps-widget--sidebar ps-widget--category">
-                <div class="ps-widget__header">
-                    <h3>Categoria</h3>
-                </div>
-                <div class="ps-widget__content">
-                    <ul class="ps-list--checked">
-                        @*@foreach (var item in ViewBag.Categorias)
-                        {
-                            <li><a href="product-listing.html">@item.</a></li>
-                        }*@
-                    </ul>
-                </div>
-            </aside>
-            <aside class="ps-widget--sidebar ps-widget--filter">
-                <div class="ps-widget__header">
-                    <h3>Category</h3>
-                </div>
-                <div class="ps-widget__content">
-                    <div class="ac-slider" data-default-min="300" data-default-max="2000" data-max="3450" data-step="50" data-unit="$"></div>
-                    <p class="ac-slider__meta">Price:<span class="ac-slider__value ac-slider__min"></span>-<span class="ac-slider__value ac-slider__max"></span></p><a class="ac-slider__filter ps-btn" href="#">Filter</a>
-                </div>
-            </aside>
-            <aside class="ps-widget--sidebar ps-widget--category">
-                <div class="ps-widget__header">
-                    <h3>Sky Brand</h3>
-                </div>
-                <div class="ps-widget__content">
-                    <ul class="ps-list--checked">
-                        <li class="current"><a href="product-listing.html">Nike(521)</a></li>
-                        <li><a href="product-listing.html">Adidas(76)</a></li>
-                        <li><a href="product-listing.html">Baseball(69)</a></li>
-                        <li><a href="product-listing.html">Gucci(36)</a></li>
-                        <li><a href="product-listing.html">Dior(108)</a></li>
-                        <li><a href="product-listing.html">B&G(108)</a></li>
-                        <li><a href="product-listing.html">Louis Vuiton(47)</a></li>
-                    </ul>
-                </div>
-            </aside>
-            <aside class="ps-widget--sidebar ps-widget--category">
-                <div class="ps-widget__header">
-                    <h3>Width</h3>
-                </div>
-                <div class="ps-widget__content">
-                    <ul class="ps-list--checked">
-                        <li class="current"><a href="product-listing.html">Narrow</a></li>
-                        <li><a href="product-listing.html">Regular</a></li>
-                        <li><a href="product-listing.html">Wide</a></li>
-                        <li><a href="product-listing.html">Extra Wide</a></li>
-                    </ul>
-                </div>
-            </aside>
-            <div class="ps-sticky desktop">
-                <aside class="ps-widget--sidebar">
-                    <div class="ps-widget__header">
-                        <h3>Size</h3>
-                    </div>
-                    <div class="ps-widget__content">
-                        <table class="table ps-table--size">
-                            <tbody>
-                                <tr>
-                                    <td class="active">3</td>
-                                    <td>5.5</td>
-                                    <td>8</td>
-                                    <td>10.5</td>
-                                    <td>13</td>
-                                </tr>
-                                <tr>
-                                    <td>3.5</td>
-                                    <td>6</td>
-                                    <td>8.5</td>
-                                    <td>11</td>
-                                    <td>13.5</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>6.5</td>
-                                    <td>9</td>
-                                    <td>11.5</td>
-                                    <td>14</td>
-                                </tr>
-                                <tr>
-                                    <td>4.5</td>
-                                    <td>7</td>
-                                    <td>9.5</td>
-                                    <td>12</td>
-                                    <td>14.5</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>7.5</td>
-                                    <td>10</td>
-                                    <td>12.5</td>
-                                    <td>15</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </aside>
-                <aside class="ps-widget--sidebar">
-                    <div class="ps-widget__header">
-                        <h3>Color</h3>
-                    </div>
-                    <div class="ps-widget__content">
-                        <ul class="ps-list--color">
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                        </ul>
-                    </div>
-                </aside>
             </div>
         </div>
     </div>

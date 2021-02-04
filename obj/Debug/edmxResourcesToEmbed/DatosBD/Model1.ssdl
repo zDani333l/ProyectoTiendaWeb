@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbTiendaOnlineBicicletasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Tbl_Carro">
+    <Key>
+      <PropertyRef Name="CarroId" />
+    </Key>
+    <Property Name="CarroId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductoId" Type="int" />
+    <Property Name="MiembroId" Type="int" />
+    <Property Name="CarroStatusId" Type="int" />
+  </EntityType>
+  <EntityType Name="Tbl_CarroStatus">
+    <Key>
+      <PropertyRef Name="CarroStatusId" />
+    </Key>
+    <Property Name="CarroStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CarroStatus" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Tbl_Categoria">
+    <Key>
+      <PropertyRef Name="CategoriaId" />
+    </Key>
+    <Property Name="CategoriaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreCategoria" Type="varchar" MaxLength="500" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="Tbl_DetallesCompra">
+    <Key>
+      <PropertyRef Name="DetallesCompraId" />
+    </Key>
+    <Property Name="DetallesCompraId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ordenId" Type="int" />
+    <Property Name="MiembroId" Type="int" />
+    <Property Name="Direccion" Type="varchar" MaxLength="500" />
+    <Property Name="Ciudad" Type="varchar" MaxLength="500" />
+    <Property Name="Estado" Type="varchar" MaxLength="500" />
+    <Property Name="Pais" Type="varchar" MaxLength="50" />
+    <Property Name="CodigoPostal" Type="varchar" MaxLength="15" />
+    <Property Name="Monto" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="TipoPago" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Tbl_imagen">
+    <Key>
+      <PropertyRef Name="IdImagenes" />
+    </Key>
+    <Property Name="IdImagenes" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreImagen" Type="varchar" MaxLength="200" />
+    <Property Name="DirImagen" Type="varchar" MaxLength="500" />
+    <Property Name="IdProducto" Type="int" />
+  </EntityType>
+  <EntityType Name="Tbl_Miembro">
+    <Key>
+      <PropertyRef Name="MiembroId" />
+    </Key>
+    <Property Name="MiembroId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="200" />
+    <Property Name="EmailId" Type="varchar" MaxLength="200" />
+    <Property Name="PasswordId" Type="varchar" MaxLength="500" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+    <Property Name="FechaCreacion" Type="datetime" />
+    <Property Name="FechaModificacion" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tbl_MiembroRol">
+    <Key>
+      <PropertyRef Name="MiembroRolId" />
+    </Key>
+    <Property Name="MiembroRolId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MiembroId" Type="int" />
+    <Property Name="RoleadoId" Type="int" />
+  </EntityType>
+  <EntityType Name="Tbl_Producto">
+    <Key>
+      <PropertyRef Name="ProductoId" />
+    </Key>
+    <Property Name="ProductoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreProducto" Type="varchar" MaxLength="500" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsDelete" Type="bit" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+    <Property Name="Cantidad" Type="int" />
+    <Property Name="FechaCreacion" Type="datetime" />
+    <Property Name="FechaModificacion" Type="datetime" />
+    <Property Name="Precio" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Talla" Type="varchar" MaxLength="10" />
+    <Property Name="Color" Type="varchar" MaxLength="50" />
+    <Property Name="ProveedorId" Type="int" />
+    <Property Name="CategoriaId" Type="int" />
+  </EntityType>
+  <EntityType Name="Tbl_Proveedor">
+    <Key>
+      <PropertyRef Name="ProveedorId" />
+    </Key>
+    <Property Name="ProveedorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="200" />
+    <Property Name="direccion" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Tbl_Roles">
+    <Key>
+      <PropertyRef Name="RoleadoId" />
+    </Key>
+    <Property Name="RoleadoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreRol" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <Association Name="FK__Tbl_Carro__Carro__3C69FB99">
+    <End Role="Tbl_CarroStatus" Type="Self.Tbl_CarroStatus" Multiplicity="0..1" />
+    <End Role="Tbl_Carro" Type="Self.Tbl_Carro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_CarroStatus">
+        <PropertyRef Name="CarroStatusId" />
+      </Principal>
+      <Dependent Role="Tbl_Carro">
+        <PropertyRef Name="CarroStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tbl_Carro__Miemb__3D5E1FD2">
+    <End Role="Tbl_Miembro" Type="Self.Tbl_Miembro" Multiplicity="0..1" />
+    <End Role="Tbl_Carro" Type="Self.Tbl_Carro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Miembro">
+        <PropertyRef Name="MiembroId" />
+      </Principal>
+      <Dependent Role="Tbl_Carro">
+        <PropertyRef Name="MiembroId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tbl_Carro__Produ__3B75D760">
+    <End Role="Tbl_Producto" Type="Self.Tbl_Producto" Multiplicity="0..1" />
+    <End Role="Tbl_Carro" Type="Self.Tbl_Carro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Producto">
+        <PropertyRef Name="ProductoId" />
+      </Principal>
+      <Dependent Role="Tbl_Carro">
+        <PropertyRef Name="ProductoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tbl_Detal__Miemb__35BCFE0A">
+    <End Role="Tbl_Miembro" Type="Self.Tbl_Miembro" Multiplicity="0..1" />
+    <End Role="Tbl_DetallesCompra" Type="Self.Tbl_DetallesCompra" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Miembro">
+        <PropertyRef Name="MiembroId" />
+      </Principal>
+      <Dependent Role="Tbl_DetallesCompra">
+        <PropertyRef Name="MiembroId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tbl_image__IdPro__2E1BDC42">
+    <End Role="Tbl_Producto" Type="Self.Tbl_Producto" Multiplicity="0..1" />
+    <End Role="Tbl_imagen" Type="Self.Tbl_imagen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Producto">
+        <PropertyRef Name="ProductoId" />
+      </Principal>
+      <Dependent Role="Tbl_imagen">
+        <PropertyRef Name="IdProducto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tbl_Miemb__Miemb__403A8C7D">
+    <End Role="Tbl_Miembro" Type="Self.Tbl_Miembro" Multiplicity="0..1" />
+    <End Role="Tbl_MiembroRol" Type="Self.Tbl_MiembroRol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Miembro">
+        <PropertyRef Name="MiembroId" />
+      </Principal>
+      <Dependent Role="Tbl_MiembroRol">
+        <PropertyRef Name="MiembroId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tbl_Miemb__Rolea__412EB0B6">
+    <End Role="Tbl_Roles" Type="Self.Tbl_Roles" Multiplicity="0..1" />
+    <End Role="Tbl_MiembroRol" Type="Self.Tbl_MiembroRol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Roles">
+        <PropertyRef Name="RoleadoId" />
+      </Principal>
+      <Dependent Role="Tbl_MiembroRol">
+        <PropertyRef Name="RoleadoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tbl_Produ__Categ__2A4B4B5E">
+    <End Role="Tbl_Categoria" Type="Self.Tbl_Categoria" Multiplicity="0..1" />
+    <End Role="Tbl_Producto" Type="Self.Tbl_Producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Categoria">
+        <PropertyRef Name="CategoriaId" />
+      </Principal>
+      <Dependent Role="Tbl_Producto">
+        <PropertyRef Name="CategoriaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tbl_Produ__Prove__2B3F6F97">
+    <End Role="Tbl_Proveedor" Type="Self.Tbl_Proveedor" Multiplicity="0..1" />
+    <End Role="Tbl_Producto" Type="Self.Tbl_Producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Proveedor">
+        <PropertyRef Name="ProveedorId" />
+      </Principal>
+      <Dependent Role="Tbl_Producto">
+        <PropertyRef Name="ProveedorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="GetBySearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="search" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <EntityContainer Name="dbTiendaOnlineBicicletasModelStoreContainer">
+    <EntitySet Name="Tbl_Carro" EntityType="Self.Tbl_Carro" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_CarroStatus" EntityType="Self.Tbl_CarroStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Categoria" EntityType="Self.Tbl_Categoria" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_DetallesCompra" EntityType="Self.Tbl_DetallesCompra" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_imagen" EntityType="Self.Tbl_imagen" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Miembro" EntityType="Self.Tbl_Miembro" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_MiembroRol" EntityType="Self.Tbl_MiembroRol" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Producto" EntityType="Self.Tbl_Producto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Proveedor" EntityType="Self.Tbl_Proveedor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Roles" EntityType="Self.Tbl_Roles" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Tbl_Carro__Carro__3C69FB99" Association="Self.FK__Tbl_Carro__Carro__3C69FB99">
+      <End Role="Tbl_CarroStatus" EntitySet="Tbl_CarroStatus" />
+      <End Role="Tbl_Carro" EntitySet="Tbl_Carro" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tbl_Carro__Miemb__3D5E1FD2" Association="Self.FK__Tbl_Carro__Miemb__3D5E1FD2">
+      <End Role="Tbl_Miembro" EntitySet="Tbl_Miembro" />
+      <End Role="Tbl_Carro" EntitySet="Tbl_Carro" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tbl_Carro__Produ__3B75D760" Association="Self.FK__Tbl_Carro__Produ__3B75D760">
+      <End Role="Tbl_Producto" EntitySet="Tbl_Producto" />
+      <End Role="Tbl_Carro" EntitySet="Tbl_Carro" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tbl_Detal__Miemb__35BCFE0A" Association="Self.FK__Tbl_Detal__Miemb__35BCFE0A">
+      <End Role="Tbl_Miembro" EntitySet="Tbl_Miembro" />
+      <End Role="Tbl_DetallesCompra" EntitySet="Tbl_DetallesCompra" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tbl_image__IdPro__2E1BDC42" Association="Self.FK__Tbl_image__IdPro__2E1BDC42">
+      <End Role="Tbl_Producto" EntitySet="Tbl_Producto" />
+      <End Role="Tbl_imagen" EntitySet="Tbl_imagen" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tbl_Miemb__Miemb__403A8C7D" Association="Self.FK__Tbl_Miemb__Miemb__403A8C7D">
+      <End Role="Tbl_Miembro" EntitySet="Tbl_Miembro" />
+      <End Role="Tbl_MiembroRol" EntitySet="Tbl_MiembroRol" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tbl_Miemb__Rolea__412EB0B6" Association="Self.FK__Tbl_Miemb__Rolea__412EB0B6">
+      <End Role="Tbl_Roles" EntitySet="Tbl_Roles" />
+      <End Role="Tbl_MiembroRol" EntitySet="Tbl_MiembroRol" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tbl_Produ__Categ__2A4B4B5E" Association="Self.FK__Tbl_Produ__Categ__2A4B4B5E">
+      <End Role="Tbl_Categoria" EntitySet="Tbl_Categoria" />
+      <End Role="Tbl_Producto" EntitySet="Tbl_Producto" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tbl_Produ__Prove__2B3F6F97" Association="Self.FK__Tbl_Produ__Prove__2B3F6F97">
+      <End Role="Tbl_Proveedor" EntitySet="Tbl_Proveedor" />
+      <End Role="Tbl_Producto" EntitySet="Tbl_Producto" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

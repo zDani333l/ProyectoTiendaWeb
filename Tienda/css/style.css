@@ -864,10 +864,12 @@ body {
     right: calc(100% - 270px); }
   .ps-products-wrap .ps-products {
     position: relative;
-    left: 270px;
-    padding-left: 10px;
+    left: 75px;
+    padding-left: 90px;
     float: left;
-    width: calc(100% - 270px); }
+    width: calc(100% - 250px); }
+
+
   .ps-products-wrap.inverse .ps-sidebar {
     float: right;
     right: 0;

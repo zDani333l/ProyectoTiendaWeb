@@ -1,7 +1,10 @@
-﻿@model ProyectoWebAppTienda.Models.DetalleProductoViewModel
+﻿@using ProyectoWebAppTienda.Models
+@model DetalleProductoViewModels
 @{
     ViewBag.Title = "Detalle Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var imgs = Model.Imagenes.ToList();
+    int auxCheck = ViewBag.check;
 }
 
 <main class="ps-main">
@@ -17,46 +20,41 @@
         <div class="ps-container">
             <div class="row">
                 <div class="col-lg-10 col-md-12 col-lg-offset-1">
+
                     <div class="ps-product__thumbnail">
                         <div class="ps-product__preview">
                             <div class="ps-product__variants">
-                                <div class="item"><img src="/@Model.Img1.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt=""></div>
-                                <div class="item"><img src="/@Model.Img2.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt=""></div>
-                                <div class="item"><img src="/@Model.Img3.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt=""></div>
+                                <div class="item"><img src="/imagenes/@imgs[0].NombreImagen" alt=""></div>
+                                <div class="item"><img src="/imagenes/@imgs[1].NombreImagen" alt=""></div>
+                                <div class="item"><img src="/imagenes/@imgs[2].NombreImagen" alt=""></div>
+                                <div class="item"><img src="/imagenes/@imgs[3].NombreImagen" alt=""></div>
                             </div>
 
                         </div>
                         <div class="ps-product__image">
-                            <div class="item"><img class="zoom" src="/@Model.Img1.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt="" data-zoom-image="/@Model.Img1.Substring(Server.MapPath("~").Length).Replace("\\", "/")"></div>
-                            <div class="item"><img class="zoom" src="/@Model.Img2.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt="" data-zoom-image="/@Model.Img2.Substring(Server.MapPath("~").Length).Replace("\\", "/")"></div>
-                            <div class="item"><img class="zoom" src="/@Model.Img3.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt="" data-zoom-image="/@Model.Img3.Substring(Server.MapPath("~").Length).Replace("\\", "/")"></div>
+                            <div class="item"><img class="zoom" src="/imagenes/@imgs[0].NombreImagen" alt="" data-zoom-image="/imagenes/@imgs[0].NombreImagen"></div>
+                            <div class="item"><img class="zoom" src="/imagenes/@imgs[1].NombreImagen" alt="" data-zoom-image="/imagenes/@imgs[1].NombreImagen"></div>
+                            <div class="item"><img class="zoom" src="/imagenes/@imgs[2].NombreImagen" alt="" data-zoom-image="/imagenes/@imgs[2].NombreImagen"></div>
+                            <div class="item"><img class="zoom" src="/imagenes/@imgs[3].NombreImagen" alt="" data-zoom-image="/imagenes/@imgs[3].NombreImagen"></div>
                         </div>
                     </div>
                     <div class="ps-product__thumbnail--mobile">
-                        <div class="ps-product__main-img"><img src="/@Model.Img1.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt=""></div>
+                        <div class="ps-product__main-img"><img src="/imagenes/@imgs[0].NombreImagen" alt=""></div>
                         <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="3" data-owl-item-xs="3" data-owl-item-sm="3" data-owl-item-md="3" data-owl-item-lg="3" data-owl-duration="1000" data-owl-mousedrag="on">
-                            <img src="/@Model.Img1.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt="">
-                            <img src="/@Model.Img2.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt="">
-                            <img src="/@Model.Img3.Substring(Server.MapPath("~").Length).Replace("\\", "/")" alt="">
+                            <img src="/imagenes/@imgs[0].NombreImagen" alt="">
+                            <img src="/imagenes/@imgs[1].NombreImagen" alt="">
+                            <img src="/imagenes/@imgs[2].NombreImagen" alt="">
+                            <img src="/imagenes/@imgs[3].NombreImagen" alt="">
                         </div>
                     </div>
+
                     <div class="ps-product__info">
 
-                        <h1>@Model.NombrePrudcto</h1>
+                        <h1>@Model.NombreProducto</h1>
 
                         <p class="ps-product__category">
-                            @for (int i = 0; i < Model.Categorias.Length; i++)
-                            {
-                                if (i == Model.Categorias.Length)
-                                {
-                                    <a href="#">@Model.Categorias[i]</a>
-                                }
-                                else
-                                {
-                                    <a href="#">@Model.Categorias[i],</a>
-                                }
+                            <a href="#">@Model</a>
 
-                            }
                         </p>
                         <h3 class="ps-product__price">$ @Model.Precio <del>$ 120.000</del></h3>
                         <div class="ps-product__block ps-product__quickview">
@@ -66,23 +64,75 @@
 
                         <div class="ps-product__block ps-product__size">
                             <h4>TALLA<a href="#">Size chart</a></h4>
-                            <select class="ps-select selectpicker">
-                                @for (int i = 0; i < @Model.Tallas.Length; i++)
-                                {
-                                    <option value="@i+1">@Model.Tallas[i]</option>
-                                }
-                            </select>
-                            <div class="form-group">
-                                <input class="form-control" type="number" value="1">
+                        </div>
+
+                        @if (auxCheck == 0)
+                        {
+                            <div class="ps-product__shopping">
+                                <a class="ps-btn mb-10" href="/Compra/AgregarCarrito?productId=@Model.ProductoId&search=@ViewBag.buscar&pag=@ViewBag.pag">Agregar Al Carrito<i class="ps-icon-next"></i></a>
                             </div>
-                        </div>
-                        <div class="ps-product__shopping">
-                            <a class="ps-btn mb-10" href="cart.html">Agregar Al Carrito<i class="ps-icon-next"></i></a>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="ps-product__shopping">
+                                <div class="container">
+                                    <a class="ps-btn mb-5" href="">Seguir Comprando<i class="ps-icon-next"></i></a>
+                                    <a class="ps-btn mb-5" href="">Ver Detalle Compra<i class="ps-icon-next"></i></a>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
         </div>
     </div>
-  
+    <div class="ps-section ps-section--top-sales ps-owl-root pt-40 pb-80">
+        <div class="ps-container">
+            <div class="ps-section__header mb-50">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
+                        <h3 class="ps-section__title" data-mask="Articulos Relacionados">- Te podrían gustar</h3>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                        <div class="ps-owl-actions"><a class="ps-prev" href=""><i class="ps-icon-arrow-right"></i>Ant</a><a class="ps-next" href="">Sig<i class="ps-icon-arrow-left"></i></a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="ps-section__content">
+                <div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                    @foreach (var item in Model.ProductosRelacionados)
+                    {
+                        var img = item.Tbl_imagen.ToList();
+                        <div class="ps-shoes--carousel">
+                            <div class="ps-shoe">
+                                <div class="ps-shoe__thumbnail">
+                                    <a class="ps-shoe__favorite" href="/Compra/AgregarCarrito?productId=@item.ProductoId&search=@ViewBag.buscar&pag=@ViewBag.pag"><i class="ps-icon-shopping-cart"></i></a>
+                                    <img src="/imagenes/@img[0].NombreImagen" alt=""><a class="ps-shoe__overlay" href="/Producto/DetalleProducto?id=@item.ProductoId&buscar=@ViewBag.buscar&pagina=@ViewBag.pag"></a>
+                                </div>
+                                <div class="ps-shoe__content">
+                                    <div class="ps-shoe__variants">
+                                        <div class="ps-shoe__variant normal">
+                                            <img src="/imagenes/@img[0].NombreImagen" alt="">
+                                            <img src="/imagenes/@img[1].NombreImagen" alt="">
+                                            <img src="/imagenes/@img[2].NombreImagen" alt="">
+                                            <img src="/imagenes/@img[3].NombreImagen" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="ps-shoe__detail">
+                                        <a class="ps-shoe__name" href="product-detai.html">@item.NombreProducto</a>
+                                        <p class="ps-shoe__categories">
+                                            <a href="#">@item.Tbl_Categoria.NombreCategoria</a>
+                                        </p>
+                                        <span class="ps-shoe__price">
+                                            <del>$ 143</del> $ @item.Precio
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
