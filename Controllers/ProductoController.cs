@@ -76,8 +76,7 @@ namespace ProyectoWebAppTienda.Controllers
         {
             ViewBag.buscar = buscar;
             ViewBag.pag = pagina;
-            var categorias = _unitOfWork.GetRepositoryInstance<CategoriaViewModels>().GetResuladoSqlProcedure("GetCategoriaView").ToList();
-            ViewBag.Categorias = new CheckBoxList(categorias);
+            
 
 
             int _RegistrosPorPagina = 3;
