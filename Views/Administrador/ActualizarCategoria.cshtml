@@ -1,0 +1,38 @@
+﻿@using ProyectoWebAppTienda.DAL
+@model Categoria
+@{
+    ViewBag.Title = "ActualizarCategoria";
+    Layout = "~/Views/Shared/_AdministradorLayout.cshtml";
+}
+
+div class="col-12 col-xl-6">
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-table" style="width:5%" float></i>
+        Lista de categorias
+        <a href="../Administrador/AgregarCategoria" class="btn btn-info pull-right fa fa-plus">Agregar</a>
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("ActualizarCategoria", "Administrador", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(m => m.CategoriaId)
+
+            <div class="form-group">
+                <label class="control-label">Nombre categoria</label>
+
+                @Html.TextBoxFor(m => m.NombreCategoria, new { @class = "form-control", placeholder = "Ingrese nombre", required = "required", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(m => m.NombreCategoria, "", new { @class = "text-danger" })
+            </div>
+            <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+            <input type="submit" class="btn btn-primary" value="Save" />
+        }
+    </div>
+</div>
+</div>
+
+

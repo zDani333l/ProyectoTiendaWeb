@@ -175,8 +175,11 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccesoController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdministradorController.cs" />
     <Compile Include="Controllers\CompraController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
@@ -231,11 +234,14 @@
     <Compile Include="DAL\Tbl_Roles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Filters\AuthorizeUser.cs" />
+    <Compile Include="Filters\VerificaSession.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Articulo.cs" />
+    <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\CategoriaViewModels.cs" />
     <Compile Include="Models\DetalleProductoViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -249,6 +255,21 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\css\app.css" />
+    <Content Include="Admin\fonts\fa-brands-400.svg" />
+    <Content Include="Admin\fonts\fa-regular-400.svg" />
+    <Content Include="Admin\fonts\fa-solid-900.svg" />
+    <Content Include="Admin\img\avatars\avatar-2.jpg" />
+    <Content Include="Admin\img\avatars\avatar-3.jpg" />
+    <Content Include="Admin\img\avatars\avatar-4.jpg" />
+    <Content Include="Admin\img\avatars\avatar-5.jpg" />
+    <Content Include="Admin\img\avatars\avatar.jpg" />
+    <Content Include="Admin\img\icons\icon-48x48.png" />
+    <Content Include="Admin\img\photos\unsplash-1.jpg" />
+    <Content Include="Admin\img\photos\unsplash-2.jpg" />
+    <Content Include="Admin\img\photos\unsplash-3.jpg" />
+    <Content Include="Admin\img\screenshot.png" />
+    <Content Include="Admin\js\app.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -268,6 +289,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="imagenes\AvatarAdmin.png" />
     <Content Include="imgP\1.jpg" />
     <Content Include="imgP\2.jpg" />
     <Content Include="imgP\3.jpg" />
@@ -280,6 +302,59 @@
     <Content Include="DAL\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Admin\fonts\fa-brands-400.eot" />
+    <Content Include="Admin\fonts\fa-brands-400.ttf" />
+    <Content Include="Admin\fonts\fa-brands-400.woff" />
+    <Content Include="Admin\fonts\fa-brands-400.woff2" />
+    <Content Include="Admin\fonts\fa-regular-400.eot" />
+    <Content Include="Admin\fonts\fa-regular-400.ttf" />
+    <Content Include="Admin\fonts\fa-regular-400.woff" />
+    <Content Include="Admin\fonts\fa-regular-400.woff2" />
+    <Content Include="Admin\fonts\fa-solid-900.eot" />
+    <Content Include="Admin\fonts\fa-solid-900.ttf" />
+    <Content Include="Admin\fonts\fa-solid-900.woff" />
+    <Content Include="Admin\fonts\fa-solid-900.woff2" />
+    <Content Include="Admin\fonts\Inter-Black.woff" />
+    <Content Include="Admin\fonts\Inter-Black.woff2" />
+    <Content Include="Admin\fonts\Inter-BlackItalic.woff" />
+    <Content Include="Admin\fonts\Inter-BlackItalic.woff2" />
+    <Content Include="Admin\fonts\Inter-Bold.woff" />
+    <Content Include="Admin\fonts\Inter-Bold.woff2" />
+    <Content Include="Admin\fonts\Inter-BoldItalic.woff" />
+    <Content Include="Admin\fonts\Inter-BoldItalic.woff2" />
+    <Content Include="Admin\fonts\Inter-ExtraBold.woff" />
+    <Content Include="Admin\fonts\Inter-ExtraBold.woff2" />
+    <Content Include="Admin\fonts\Inter-ExtraBoldItalic.woff" />
+    <Content Include="Admin\fonts\Inter-ExtraBoldItalic.woff2" />
+    <Content Include="Admin\fonts\Inter-ExtraLight-BETA.woff" />
+    <Content Include="Admin\fonts\Inter-ExtraLight-BETA.woff2" />
+    <Content Include="Admin\fonts\Inter-ExtraLightItalic-BETA.woff" />
+    <Content Include="Admin\fonts\Inter-ExtraLightItalic-BETA.woff2" />
+    <Content Include="Admin\fonts\Inter-italic.var.woff2" />
+    <Content Include="Admin\fonts\Inter-Italic.woff" />
+    <Content Include="Admin\fonts\Inter-Italic.woff2" />
+    <Content Include="Admin\fonts\Inter-Light-BETA.woff" />
+    <Content Include="Admin\fonts\Inter-Light-BETA.woff2" />
+    <Content Include="Admin\fonts\Inter-LightItalic-BETA.woff" />
+    <Content Include="Admin\fonts\Inter-LightItalic-BETA.woff2" />
+    <Content Include="Admin\fonts\Inter-Medium.woff" />
+    <Content Include="Admin\fonts\Inter-Medium.woff2" />
+    <Content Include="Admin\fonts\Inter-MediumItalic.woff" />
+    <Content Include="Admin\fonts\Inter-MediumItalic.woff2" />
+    <Content Include="Admin\fonts\Inter-Regular.woff" />
+    <Content Include="Admin\fonts\Inter-Regular.woff2" />
+    <Content Include="Admin\fonts\Inter-SemiBold.woff" />
+    <Content Include="Admin\fonts\Inter-SemiBold.woff2" />
+    <Content Include="Admin\fonts\Inter-SemiBoldItalic.woff" />
+    <Content Include="Admin\fonts\Inter-SemiBoldItalic.woff2" />
+    <Content Include="Admin\fonts\Inter-Thin-BETA.woff" />
+    <Content Include="Admin\fonts\Inter-Thin-BETA.woff2" />
+    <Content Include="Admin\fonts\Inter-ThinItalic-BETA.woff" />
+    <Content Include="Admin\fonts\Inter-ThinItalic-BETA.woff2" />
+    <Content Include="Admin\fonts\Inter-upright.var.woff2" />
+    <Content Include="Admin\fonts\Inter.var.woff2" />
+    <Content Include="Admin\js\app.js.LICENSE" />
+    <Content Include="Admin\js\app.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -633,7 +708,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Shared\_LayaoutAdmin.cshtml" />
     <Content Include="Views\Compra\Carrito.cshtml" />
     <Content Include="Views\Producto\DetalleProducto.cshtml" />
     <Content Include="Views\Compra\Checkout.cshtml" />
@@ -892,10 +966,19 @@
     <Content Include="Tienda\resources\sass\vendor\_masonry_grid.scss" />
     <Content Include="Tienda\resources\sass\vendor\_media_query.scss" />
     <Content Include="Views\Shared\_NavCart.cshtml" />
+    <Content Include="Views\Shared\_AdministradorLayout.cshtml" />
+    <Content Include="Views\Administrador\Dashboard.cshtml" />
+    <Content Include="Views\Administrador\Categorias.cshtml" />
+    <Content Include="Views\Administrador\AgregarCategoria.cshtml" />
+    <Content Include="Views\Administrador\Producto.cshtml" />
+    <Content Include="Views\Administrador\ProductEdit.cshtml" />
+    <Content Include="Views\Administrador\ProductAdd.cshtml" />
+    <Content Include="Views\Administrador\ActualizarCategoria.cshtml" />
+    <Content Include="Views\Error\UnauthorizedOperation.cshtml" />
+    <Content Include="Views\Acceso\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="imagenes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

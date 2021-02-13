@@ -1,0 +1,62 @@
+﻿@using ProyectoWebAppTienda.DAL
+@model IEnumerable<Tbl_Producto>
+    @{
+        ViewBag.Title = "Producto";
+        Layout = "~/Views/Shared/_AdministradorLayout.cshtml";
+    }
+    <h2>Producto</h2>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Product
+            <a href="../Administrador/ProductAdd" class="btn btn-info pull-right fa fa-plus">Add New</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>Nombre</th>
+                            <th>Id Categoria</th>
+                            <th>Descripcion</th>
+                            <th>Cantidad</th>
+                            <th>FechaCreacion</th>
+                            <th>Fecha modificacion</th>
+                            <th>Id proveedor</th>
+                            <th>Precio</th>
+                            <th>Talla</th>
+                            <th>Color</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            int count = 1;
+                            <tr>
+                                <td>@count</td>
+                                <td>@item.NombreProducto</td>
+                                <td>@item.CategoriaId</td>
+                                <td>@item.Descripcion</td>
+                                <td>@item.Cantidad</td>
+                                <td>@item.FechaCreacion</td>
+                                <td>@item.FechaModificacion</td>
+                                <td>@item.ProveedorId</td>
+                                <td>@item.Precio</td>
+                                <td>@item.Talla</td>
+                                <td>@item.Color</td>
+                                <td>
+                                    @Html.ActionLink("Edit", "ProductEdit", new { productoId = item.ProductoId })
+                                </td>
+
+                            </tr>
+                            count++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>

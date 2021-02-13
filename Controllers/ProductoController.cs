@@ -1,4 +1,5 @@
-﻿using ProyectoWebAppTienda.DAL;
+﻿using Newtonsoft.Json;
+using ProyectoWebAppTienda.DAL;
 using ProyectoWebAppTienda.Models;
 using ProyectoWebAppTienda.Repository;
 using System;
@@ -72,12 +73,10 @@ namespace ProyectoWebAppTienda.Controllers
             //INICIAR VISTA CON EL MODELO
             return View(producto);
         }
-        public ActionResult ListaProductos(string buscar, int pagina = 1, CheckBoxList checkBoxList = null)
+        public ActionResult ListaProductos(string buscar, int pagina = 1)
         {
             ViewBag.buscar = buscar;
             ViewBag.pag = pagina;
-            
-
 
             int _RegistrosPorPagina = 3;
             PaginadorGenerico<Tbl_Producto> _PaginadorProductos;

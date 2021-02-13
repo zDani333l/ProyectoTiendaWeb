@@ -1,0 +1,30 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UnauthorizedOperation</title>
+</head>
+<body>
+    <div>
+        <h3><i class="fa fa-warning text-red"></i>Sin autorización</h3>
+        @if (ViewBag.operacion != "")
+        {
+            <p>Operación @ViewBag.operacion </p>
+        }
+        @if (ViewBag.modulo != "")
+        {
+            <p>Modulo @ViewBag.modulo</p>
+        }
+        @if (ViewBag.msjeErrorExcepcion != "")
+        {
+            <p>@ViewBag.msjeErrorExcepcion</p>
+        }
+    </div>
+</body>
+</html>

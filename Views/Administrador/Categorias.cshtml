@@ -1,0 +1,41 @@
+﻿@using ProyectoWebAppTienda.DAL; 
+@model List<Tbl_Categoria>
+    @{
+        ViewBag.Title = "Categorias";
+        Layout = "~/Views/Shared/_AdministradorLayout.cshtml";
+    }
+
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-table" style="width:5%" float></i>
+            Lista de categorias
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width:40%;">Id</th>
+                    <th style="width:25%">Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>@(Model.IndexOf(item)+1)</td>
+                    <td>@item.NombreCategoria</td>
+                    <td class="table-action">
+                        <a href="/Administrador/ActualizarCategoria"><i class="align-middle" data-feather="edit-2"></i></a>
+                        <a href="#"><i class="align-middle" data-feather="trash"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <a href="/Administrador/AgregarCategoria" class="btn btn-info pull-right fa fa-plus">Agregar</a>
+    </div>
+</div>
+
+
