@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace ProyectoWebAppTienda.Filters
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    //[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)] ACTIVAR SI QUIERO AUTORIZACION POR METODOS
     public class AuthorizeUser : AuthorizeAttribute
     {
         private Tbl_Miembro oUsuario;

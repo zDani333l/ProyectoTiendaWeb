@@ -11,19 +11,17 @@ using System.Web.Mvc;
 
 namespace ProyectoWebAppTienda.Controllers
 {
-    
+    [AuthorizeUser(idRol: 1)] //ROL 1 ES PARA ADMINISTRADOR
     public class AdministradorController : Controller
     {
 
         public GenericUnitOfWork _unitOfWork = new GenericUnitOfWork();
 
-        [AuthorizeUser(idRol: 1)]
         public ActionResult Dashboard()
         {
             return View();
         }
 
-        [AuthorizeUser(idRol: 1)]
         public ActionResult Categorias()
         {
             List<Tbl_Categoria> allcategories = _unitOfWork.GetRepositoryInstance<Tbl_Categoria>().GetRegistros().Where(i => i.IsDelete == false).ToList();
@@ -55,6 +53,7 @@ namespace ProyectoWebAppTienda.Controllers
             return View(allproducts);
         }
 
+       // [AuthorizeUser(idRol: 1)]
         public ActionResult ProductEdit(int ProductoId)
         {
             return View(_unitOfWork.GetRepositoryInstance<Tbl_Producto>().GetId(ProductoId));
